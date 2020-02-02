@@ -3,7 +3,7 @@ import random
 
 pygame.init()
 window_width = 1080
-window_height = 480
+window_height = 550
 play_width = window_width - 100
 win = pygame.display.set_mode((window_width, window_height))
 clock = pygame.time.Clock()
@@ -143,7 +143,8 @@ shoot_interval = 0
 enemy_interval = 0
 level = 1
 # run game
-rider = rider_body(play_width - (play_width // 2), window_height - 10)
+#To Set intial space ship postiton on screen
+rider = rider_body(play_width - (play_width // 2), window_height - 50)
 maxkills = 40
 
 
