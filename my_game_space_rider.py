@@ -4,21 +4,21 @@ import random
 pygame.init()
 window_width = 1080
 window_height = 480
-play_width = window_width-100
+play_width = window_width - 100
 win = pygame.display.set_mode((window_width, window_height))
 clock = pygame.time.Clock()
 pygame.display.set_caption("space rider")
 # bg = pygame.image.load("red_space.png")
 bg = pygame.image.load("loophole.jpg")
 # ship = pygame.image.load('spaceship.png')
-ship = pygame.image.load('baseshipb.ico')
-enemy_ship1 = pygame.image.load('saucer1b.ico')
-enemy_ship2 = pygame.image.load('saucer2b.ico')
-enemy_ship3 = pygame.image.load('saucer3b.ico')
-enemy_ships = [enemy_ship1,enemy_ship2,enemy_ship3]
-bulletSound = pygame.mixer.Sound('shoot.wav')
-enemy_killed = pygame.mixer.Sound('invaderkilled.wav')
-rider_killed = pygame.mixer.Sound('explosion.wav')
+ship = pygame.image.load("baseshipb.ico")
+enemy_ship1 = pygame.image.load("saucer1b.ico")
+enemy_ship2 = pygame.image.load("saucer2b.ico")
+enemy_ship3 = pygame.image.load("saucer3b.ico")
+enemy_ships = [enemy_ship1, enemy_ship2, enemy_ship3]
+bulletSound = pygame.mixer.Sound("shoot.wav")
+enemy_killed = pygame.mixer.Sound("invaderkilled.wav")
+rider_killed = pygame.mixer.Sound("explosion.wav")
 run = True
 font = pygame.font.SysFont("comicsans", 30, True)
 score = 0
@@ -28,6 +28,7 @@ lives = 5
 
 class rider_body(object):
     global keys, ship
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -58,18 +59,23 @@ def redrawGameWindow():
     kill = font.render("kills: " + str(kills), 1, (96, 32, 151))
     total_score = font.render("score: " + str(score), 1, (0, 25, 240))
     total_lives = font.render("Lives: " + str(lives), 1, (255, 0, 0))
-    total_bullets = font.render("Bullets : " + str(50-bullets_shooted), 1, (255, 0, 0))
+    total_bullets = font.render(
+        "Bullets : " + str(50 - bullets_shooted), 1, (255, 0, 0)
+    )
     Reload = font.render("Reload: R ", 1, (255, 0, 0))
-    Level = font.render("level: "+str(level), 1, (255, 0, 0))
+    Level = font.render("level: " + str(level), 1, (255, 0, 0))
     win.blit(kill, (window_width - 150, 20))
     win.blit(total_score, (window_width - 150, 40))
     win.blit(total_lives, (window_width - 150, 60))
     win.blit(total_bullets, (window_width - 150, 80))
     win.blit(Level, (window_width - 150, 100))
-    if bullets_shooted == 50 :
+    if bullets_shooted == 50:
         win.blit(Reload, (window_width - 150, 120))
     win.blit(ship, (rider.x, rider.y))
-    # pygame.draw.rect(win, (120, 0, 0), (rider.x, rider.y, rider.width, rider.height))
+    # pygame.draw.rect(
+    #                   win, (120, 0, 0),
+    #                   (rider.x, rider.y, rider.width, rider.height)
+    #                   )
     # pygame.draw.rect(win, (0, 0, 0), rider.hitbox, 2)
     for bullet in bullets:
         bullet.draw(win)
@@ -92,19 +98,21 @@ class projectile(object):
 
 class enemy(object):
     global enemy_ships, level
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
         self.width = 20
         self.height = 20
-        self.vel = 0.5*level
+        self.vel = 0.5 * level
         self.hitbox = (self.x - 3, self.y - 4, 26, 24)
         self.health = 2
-        self.enemy_ship = enemy_ships[random.randint(0,len(enemy_ships)-1)]
+        self.enemy_ship = enemy_ships[random.randint(0, len(enemy_ships) - 1)]
+
     def draw(self, win):
         self.hitbox = (self.x - 3, self.y - 4, 26, 24)
         # pygame.draw.rect(win, (255, 0, 0), self.hitbox, 2)#hit box
-        #health bars
+        # health bars
         pygame.draw.rect(
             win, (255, 0, 0), (self.hitbox[0], self.hitbox[1] - 20, 50, 10)
         )
@@ -118,7 +126,10 @@ class enemy(object):
                 10,
             ),
         )
-        # pygame.draw.rect(win, (255, 200, 0), (self.x, self.y, self.width, self.height))
+        # pygame.draw.rect(win,
+        #                  (255, 200, 0),
+        #                  (self.x, self.y, self.width, self.height)
+        #                  )
         win.blit(self.enemy_ship, (self.x, self.y))
 
     def hit(self):
@@ -135,11 +146,13 @@ level = 1
 rider = rider_body(play_width - (play_width // 2), window_height - 10)
 maxkills = 40
 
+
 def reset():
-    global bullets, enimes, rider, lives, kills, score, enemy_interval, shoot_interval, bullets_shooted, level, maxkills
+    global bullets, enimes, rider, lives, kills, score
+    global enemy_interval, shoot_interval, bullets_shooted, level, maxkills
     bullets = []
     enimes = []
-    rider.x = play_width - play_width/2
+    rider.x = play_width - play_width / 2
     rider.y = window_height - 10
     enemy_interval = 0
     shoot_interval = 0
@@ -150,40 +163,45 @@ def reset():
     level = 1
     maxkills = 40
 
+
 def restart():
     # font1 = pygame.font.SysFont('comicsans', 100)
-    text = font.render('Restart', 1, (255, 0, 0))
-    Press = font.render('Y/N', 1, (255, 0, 0))
-    win.blit(text, (window_width - (text.get_width()+5), 200))
-    win.blit(Press, (window_width - (Press.get_width()+ 5), 220))
+    text = font.render("Restart", 1, (255, 0, 0))
+    Press = font.render("Y/N", 1, (255, 0, 0))
+    win.blit(text, (window_width - (text.get_width() + 5), 200))
+    win.blit(Press, (window_width - (Press.get_width() + 5), 220))
     pygame.display.update()
     while True:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-        if  keys[pygame.K_n]:
+        if keys[pygame.K_n]:
             pygame.quit()
         elif keys[pygame.K_y]:
             reset()
             break
+
+
 def pause():
     # font1 = pygame.font.SysFont('comicsans', 100)
-    continue_y = font.render('Continue - y', 1, (255, 0, 0))
-     # = font.render('Y/N', 1, (255, 0, 0))
-    exit = font.render('Exit - N', 1, (255, 0, 0))
-    win.blit(continue_y, (window_width - (continue_y.get_width()+5), 200))
-    win.blit(exit, (window_width - (exit.get_width()+5), 220))
+    continue_y = font.render("Continue - y", 1, (255, 0, 0))
+    # = font.render('Y/N', 1, (255, 0, 0))
+    exit = font.render("Exit - N", 1, (255, 0, 0))
+    win.blit(continue_y, (window_width - (continue_y.get_width() + 5), 200))
+    win.blit(exit, (window_width - (exit.get_width() + 5), 220))
     pygame.display.update()
     while True:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-        if  keys[pygame.K_n]:
+        if keys[pygame.K_n]:
             pygame.quit()
         elif keys[pygame.K_y]:
             break
+
+
 while run:
     keys = pygame.key.get_pressed()
     clock.tick(30)
@@ -195,9 +213,9 @@ while run:
         enemy_interval += 1
     if enemy_interval > 15:
         enemy_interval = 0
-    if kills> maxkills :
-        level +=1
-        maxkills = maxkills*level
+    if kills > maxkills:
+        level += 1
+        maxkills = maxkills * level
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -219,8 +237,8 @@ while run:
                     and bullet.y + bullet.radius > e.hitbox[1]
                 ):
                     if (
-                        bullet.x + bullet.radius > e.hitbox[0]
-                        and bullet.x - bullet.radius < e.hitbox[0] + e.hitbox[2]
+                        bullet.x + bullet.radius > e.hitbox[0] and
+                        bullet.x - bullet.radius < e.hitbox[0] + e.hitbox[2]
                     ):
                         score += 10
                         if e.health > 1:
@@ -245,7 +263,7 @@ while run:
                 )
             )
 
-    if len(enimes) < 5*level and not enemy_interval:
+    if len(enimes) < 5 * level and not enemy_interval:
         enemy_interval = 1
         x = random.randint(1, play_width - 200)
 
